@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
           <p className="text-sm leading-relaxed max-w-xs">
             Empowering voices and connecting minds through the art of modern
-            storytelling. Join our community of creators today.
+            storytelling. 
           </p>
           <p className="text-xs text-slate-500 font-medium tracking-wide">
             &copy; {new Date().getFullYear()} BlogHub Studio.
