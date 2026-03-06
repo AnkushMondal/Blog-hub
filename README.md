@@ -4,41 +4,46 @@ A modern, full-featured blog and content management platform built with React, R
 
 ## 🌟 Features
 
-- **User Authentication** - Secure user registration and login with email/password
-- **Post Management** - Create, read, update, and delete blog posts
-- **Rich Text Editor** - TinyMCE integration for advanced content formatting
-- **Image Upload** - Upload and manage featured images for posts
-- **Post Status Control** - Publish or draft posts with status management
-- **User Authorization** - Only post authors can edit/delete their content
-- **Responsive Design** - Mobile-friendly UI with Tailwind CSS
-- **Real-time State Management** - Redux Toolkit for predictable state handling
-- **Database Integration** - Appwrite backend for secure data storage
+- **User Authentication** – secure registration, login and logout using email/password
+- **Post Management** – full CRUD for blog posts with slug-based routing
+- **Rich Text Editor** – TinyMCE editor with support for formatting, links, lists, etc.
+- **Image Upload** – drag‑and‑drop or file picker for featured images using Appwrite Storage
+- **Post Status Control** – draft / published / archived states and visibility checks
+- **Category Grouping** – posts are tagged with a required category field
+- **User Authorization** – only the author can edit or delete their own posts
+- **Responsive Design** – mobile‑friendly UI styled with Tailwind CSS
+- **Smooth Animations** – transitions and motion effects powered by Framer Motion
+- **Real‑time State Management** – Redux Toolkit for predictable, immutable state
+- **Backend as a Service** – Appwrite handles authentication, database and files
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 19** - UI library
-- **React Router DOM v7** - Client-side routing
-- **Redux Toolkit** - State management
-- **React Hook Form** - Form management and validation
-- **Tailwind CSS v4** - Utility-first CSS framework
-- **Vite** - Modern build tool and dev server
-- **TinyMCE React** - Rich text editor
-- **HTML React Parser** - Parse HTML strings in React
+- **React 19.2.0** – component library (see `package.json`)
+- **React Router DOM v7** – client-side routing with nested routes
+- **Redux Toolkit** – centralized state store and slices
+- **React Hook Form** – performant form handling and validation
+- **Tailwind CSS v4** – utility‑first styling
+- **Framer Motion** – animation/transition library used throughout the UI
+- **Vite** – blazing fast dev server and build tool
+- **TinyMCE React** – rich text editor component
+- **HTML React Parser** – safely render HTML returned from the editor
+- **dotenv** – load environment variables from `.env` files (used in scripts)
 
 ### Backend & Services
-- **Appwrite** - Backend-as-a-service platform
+- **Appwrite** – backend‑as‑a‑service platform
   - Authentication
   - Database (TablesDB)
   - File Storage
+  - Real‑time listeners (used for fetching posts)
 
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 - Node.js (v16 or higher)
 - npm or yarn package manager
-- Git
-- Appwrite account and self-hosted/cloud instance
+- Git (for cloning)
+- An Appwrite project (self‑hosted or cloud) with Database and Storage enabled
 
 ## 🚀 Installation
 
@@ -59,14 +64,17 @@ Before you begin, ensure you have the following installed:
    ```
 
 4. **Configure environment variables**
-   Add the following to `.env.local`:
+   Add the following to `.env.local` (or `.env` if you prefer):
    ```env
    VITE_APPWRITE_URL=https://your-appwrite-instance.com/v1
    VITE_APPWRITE_PROJECT_ID=your_project_id
    VITE_DATABASE_ID=your_database_id
    VITE_APPWRITE_TABLES_ID=your_collection_id
    VITE_APPWRITE_BUCKET_ID=your_bucket_id
+   VITE_TINYMCE_API_KEY=your_tinymce_cloud_api_key  # optional, required for cloud editor
    ```
+
+> These variables are accessed in code via `import.meta.env` and are automatically injected by Vite. Do **not** commit the `.env*` file to version control.
 
 5. **Start the development server**
    ```bash
@@ -218,7 +226,8 @@ Posts should have the following fields:
 - `slug` (Text) - URL-friendly identifier
 - `content` (Text) - Post content (HTML)
 - `featuredImage` (Text) - Image file ID
-- `status` (Text) - "active" or "inactive"
+- `status` (Text) - enum with values "draft", "published", or "archived" (all posts are fetched by default; published posts are shown on the public homepage)
+- `category` (Text) - required, used to group posts; must be sent in create/update operations
 - `userId` (Text) - Author user ID
 - `$id` (Auto) - Document ID
 - `$createdAt` (Auto) - Creation timestamp
