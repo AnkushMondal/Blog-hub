@@ -139,12 +139,7 @@ const Signup = () => {
             </div>
           </form>
 
-          <p className="mt-8 text-center text-slate-400 text-xs leading-relaxed">
-            By joining, you agree to our{" "}
-            <span className="underline cursor-pointer">Terms of Service</span>{" "}
-            and <span className="underline cursor-pointer">Privacy Policy</span>
-            .
-          </p>
+          
         </div>
       </motion.div>
     </div>
